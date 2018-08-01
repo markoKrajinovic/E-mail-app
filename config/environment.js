@@ -29,6 +29,14 @@ module.exports = function(environment) {
     }
   };
 
+  ENV['ember-simple-auth-token'] = {
+    //identificationField: 'email',
+    serverTokenEndpoint: '/api/tokens/',
+/*
+    authorizationHeaderName: 'Authorization', // Header name added to each API request
+    authorizationPrefix: 'Bearer ', // Prefix added to each API request*/
+  };
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
