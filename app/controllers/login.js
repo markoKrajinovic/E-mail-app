@@ -9,10 +9,13 @@ export default Controller.extend({
         authenticate: function () {
             var _this = this;
             let credentials = this.getProperties('identification', 'password');
+            
             this.get('session').authenticate('authenticator:token', credentials).then(function () {
                 _this.transitionToRoute('/');
             }, err => {
-                console.log('bbbb');
+                if(err.status === 401 || err.status === 400){
+                    console.log('wrong username-password');
+                }
             });
         }
     }

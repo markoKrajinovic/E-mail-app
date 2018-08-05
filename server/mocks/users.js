@@ -9,22 +9,31 @@ module.exports = function (app) {
   var sha1 = require('sha1');   //algoritam za hashovanje passworda
 
   usersRouter.post('/', function (req, res) {
+
+    if (!req.body.user.username || !req.body.user.password) {
+      res.status(400).end();
+      return;
+    }
+
     if (!firebase.apps.length) {
       initializeFirebase();
     }
     var users = firebase.database().ref("users");
 
-    users.push().set({
+    var newUser = users.push(); 
+    newUser.set({
       username: req.body.user.username,
       password: sha1(req.body.user.password),
       firstName: req.body.user.firstName,
       lastName: req.body.user.lastName,
       created: req.body.user.created
     }).then(function () {
-      res.status(201);
+      res.send({
+        user: {id: newUser.key}
+      });
     }).catch(function (err) {
-      console.log(err);
-      res.status(403).end();
+      //console.log(err);
+      res.status(400).end();
     });
 
   });

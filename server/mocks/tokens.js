@@ -12,6 +12,11 @@ module.exports = function (app) {
 
   tokensRouter.post('/', function (req, res) {
 
+    if(!req.body.identification || !req.body.password){
+      res.status(400).end();
+      return;
+    }
+
     if (!firebase.apps.length) {
       initializeFirebase();
     }
