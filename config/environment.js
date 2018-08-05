@@ -10,7 +10,7 @@ module.exports = function(environment) {
       apiKey: 'xyz',
       authDomain: 'email-847fb.firebaseapp.com',
       databaseURL: 'https://email-847fb.firebaseio.com',
-      storageBucket: 'email-847fb.appspot.com',
+      storageBucket: 'email-847fb.appspot.com'
     },
     EmberENV: {
       FEATURES: {

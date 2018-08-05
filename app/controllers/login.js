@@ -7,8 +7,13 @@ export default Controller.extend({
 
     actions: {
         authenticate: function () {
+            var _this = this;
             let credentials = this.getProperties('identification', 'password');
-            this.get('session').authenticate('authenticator:token', credentials);
+            this.get('session').authenticate('authenticator:token', credentials).then(function () {
+                _this.transitionToRoute('/');
+            }, err => {
+                console.log('bbbb');
+            });
         }
     }
 });

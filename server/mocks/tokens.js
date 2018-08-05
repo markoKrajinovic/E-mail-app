@@ -1,23 +1,52 @@
 /* eslint-env node */
 'use strict';
 
-module.exports = function(app) {
+module.exports = function (app) {
   const express = require('express');
   let tokensRouter = express.Router();
 
+  var firebase = require('firebase');
   var jwt = require('jsonwebtoken');
-  
-  tokensRouter.post('/', function(req, res) {
-    if (req.body.identification === 'pera' && req.body.password === 'pera') {
-      var token = jwt.sign({ email: 'pera'}, 'secretkey');
-      res.send({
-        token: token
-      });
-    } else {
-      res.status(401).end();
+
+  tokensRouter.post('/', function (req, res) {
+
+    if (!firebase.apps.length) {
+      initializeFirebase();
     }
+    var users = firebase.database().ref("users");
+
+    users.orderByChild("username").equalTo(req.body.identification).once("value", function (snapshot) {
+
+      if (snapshot.exists()) {
+        snapshot.forEach(function (userSnapshot) {   //ucice samo jednom u foreach jer je username unique
+          var user = userSnapshot.val();
+          if (user.password === req.body.password) {
+            sendToken(res);
+          } else {
+            res.status(401).end();
+          }
+        });
+      } else {
+        res.status(401).end();
+      }
+    });
   });
 
+  function initializeFirebase() {
+    firebase.initializeApp({
+      apiKey: 'xyz',
+      authDomain: 'email-847fb.firebaseapp.com',
+      databaseURL: 'https://email-847fb.firebaseio.com',
+      storageBucket: 'email-847fb.appspot.com'
+    });
+  }
+
+  function sendToken(res) {
+    var token = jwt.sign({ email: 'pera' }, 'secretkey');
+    res.send({
+      token: token
+    });
+  }
 
   // The POST and PUT call will not contain a request body
   // because the body-parser is not included by default.
