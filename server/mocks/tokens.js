@@ -7,6 +7,8 @@ module.exports = function (app) {
 
   var firebase = require('firebase');
   var jwt = require('jsonwebtoken');
+  var sha1 = require('sha1');   //algoritam za hashovanje passworda
+
 
   tokensRouter.post('/', function (req, res) {
 
@@ -20,7 +22,7 @@ module.exports = function (app) {
       if (snapshot.exists()) {
         snapshot.forEach(function (userSnapshot) {   //ucice samo jednom u foreach jer je username unique
           var user = userSnapshot.val();
-          if (user.password === req.body.password) {
+          if (user.password === sha1(req.body.password)) {
             sendToken(res);
           } else {
             res.status(401).end();

@@ -6,13 +6,7 @@ module.exports = function (app) {
   let usersRouter = express.Router();
 
   var firebase = require('firebase');
-
-
-  usersRouter.get('/', function (req, res) {
-    res.send({
-      'users': []
-    });
-  });
+  var sha1 = require('sha1');   //algoritam za hashovanje passworda
 
   usersRouter.post('/', function (req, res) {
     if (!firebase.apps.length) {
@@ -22,7 +16,7 @@ module.exports = function (app) {
 
     users.push().set({
       username: req.body.user.username,
-      password: req.body.user.password,
+      password: sha1(req.body.user.password),
       firstName: req.body.user.firstName,
       lastName: req.body.user.lastName,
       created: req.body.user.created
