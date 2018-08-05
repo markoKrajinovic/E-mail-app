@@ -13,8 +13,6 @@ export default Controller.extend({
                 users.forEach(user => console.log(user.username + ' ' + user.password + ' ' + user.firstName));
             });*/
          
-            
-
             var newUser = this.store.createRecord('user', {
                 firstName: firstName,
                 lastName: lastName,
@@ -23,8 +21,7 @@ export default Controller.extend({
             });
 
             newUser.save();
-
-            this.transitionToRoute('/');
+            this.transitionToRoute('/login');
         }
     }
 });
