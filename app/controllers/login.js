@@ -12,7 +12,7 @@ export default Controller.extend({
             
             this.get('session').authenticate('authenticator:token', credentials).then(function () {
                 _this.get('toastr').success('Logged in!');
-                _this.transitionToRoute('/');
+                _this.transitionToRoute('/authenticated');
             }, err => {
                 if(err.status === 401 || err.status === 400){
                     this.get('toastr').error('Wrong username or password!');

@@ -7,5 +7,7 @@ export default Route.extend({
     beforeModel() {
         if(!this.get('session').isAuthenticated)
             this.replaceWith('login');
+        else
+            this.replaceWith('authenticated');
     }
 });
