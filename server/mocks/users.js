@@ -11,7 +11,7 @@ module.exports = function (app) {
   usersRouter.post('/', function (req, res) {
 
     if (!req.body.user.username || !req.body.user.password) {
-      res.status(400).end();
+      res.status(400).send('usarname and password are required');
       return;
     }
 
@@ -20,22 +20,26 @@ module.exports = function (app) {
     }
     var users = firebase.database().ref("users");
 
-    var newUser = users.push(); 
-    newUser.set({
-      username: req.body.user.username,
-      password: sha1(req.body.user.password),
-      firstName: req.body.user.firstName,
-      lastName: req.body.user.lastName,
-      created: req.body.user.created
-    }).then(function () {
-      res.send({
-        user: {id: newUser.key}
-      });
-    }).catch(function (err) {
-      //console.log(err);
-      res.status(400).end();
+    users.orderByChild("username").equalTo(req.body.user.username).once("value", function (snapshot) {
+      if (snapshot.exists()) {
+        res.status(400).send('username already exists');
+      } else {
+        var newUser = users.push();
+        newUser.set({
+          username: req.body.user.username,
+          password: sha1(req.body.user.password),
+          firstName: req.body.user.firstName,
+          lastName: req.body.user.lastName,
+          created: req.body.user.created
+        }).then(function () {
+          res.send({
+            user: { id: newUser.key }
+          });
+        }).catch(function (err) {
+          res.status(400).send('database error');
+        });
+      }
     });
-
   });
 
 

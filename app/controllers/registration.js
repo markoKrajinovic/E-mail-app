@@ -1,7 +1,10 @@
 import Controller from '@ember/controller';
+import { inject } from '@ember/service';
 
 
 export default Controller.extend({
+    toastr: inject('toast'),
+
     actions: {
         registerUser: function () {
             var _this = this;
@@ -23,11 +26,11 @@ export default Controller.extend({
             });
 
 
-            newUser.save().then(function (data) {
+            newUser.save().then(function () {
+                _this.get('toastr').success('Registered!');
                 _this.transitionToRoute('/login');
             }, err => {
-                console.log(err.errors[0].status);
-
+                this.get('toastr').error(err.errors[0].detail);
             });
         }
     }
