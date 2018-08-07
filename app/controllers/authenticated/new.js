@@ -1,26 +1,52 @@
 import Controller from '@ember/controller';
 import { inject } from '@ember/service';
+import jwtDecode from 'ember-cli-jwt-decode';
+
 
 export default Controller.extend({
     toastr: inject('toast'),
+    session: inject('session'),
 
     actions: {
         newMessage: function () {
-            var userObject;
-            var self = this;
-            var { sendTo, content } = this.getProperties('sendTo', 'content');
-
-            if(!sendTo)
+            var reciever;
+            var { sendTo, content, subjectText } = this.getProperties('sendTo', 'content', 'subjectText');
+            if (!sendTo){
                 this.get('toastr').error('username doesn\'t exist');
+                return;
+            }
 
             this.store.query('user', {
                 orderBy: 'username',
                 equalTo: sendTo
             }).then(data => {
-                if(data.length)
-                    console.log(data.get("firstObject").username);
-                else
-                this.get('toastr').error('username doesn\'t exist');
+                if (data.length){       //if username exists
+                    reciever = data.get("firstObject");     //username is unique
+
+                    var loggedUserId = jwtDecode(this.get('session').data.authenticated.token).id;
+                    this.store.findRecord('user', loggedUserId).then(loggedUser => {
+                        console.log("reciever " + reciever.username);
+                        console.log("sender " + loggedUser.username);
+                        
+
+                        let newSubject = this.store.createRecord('subject', {
+                            title: subjectText
+                        });
+                        newSubject.save().then(() => {
+                            let message = this.store.createRecord('message', {
+                                content: content,
+                                reciever: reciever,
+                                sender: loggedUser,
+                                subject: newSubject
+                            });
+                            message.save().then(() => {
+                                this.get('toastr').success('message sent');
+                            });
+                        });    
+                    });
+
+                }else
+                    this.get('toastr').error('username doesn\'t exist');
 
             }, err => {
                 this.get('toastr').error('database error');

@@ -26,9 +26,9 @@ module.exports = function (app) {
 
       if (snapshot.exists()) {
         snapshot.forEach(function (userSnapshot) {   //ucice samo jednom u foreach jer je username unique
-          var user = userSnapshot.val();
+          var user = userSnapshot.val(); 
           if (user.password === sha1(req.body.password)) {
-            sendToken(res);
+            sendToken(res, userSnapshot.key);
           } else {
             res.status(401).end();
           }
@@ -48,8 +48,8 @@ module.exports = function (app) {
     });
   }
 
-  function sendToken(res) {
-    var token = jwt.sign({ email: 'pera' }, 'secretkey');
+  function sendToken(res, userId) {
+    var token = jwt.sign({ id: userId }, 'secretkey');
     res.send({
       token: token
     });
