@@ -12,6 +12,7 @@ Router.map(function() {
   this.route('authenticated', function() {
     this.route('inbox');
     this.route('sent');
+    this.route('new');
   });
 });
 

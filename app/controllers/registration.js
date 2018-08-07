@@ -4,6 +4,8 @@ import { inject } from '@ember/service';
 
 export default Controller.extend({
     toastr: inject('toast'),
+    ajax: inject(),
+
 
     actions: {
         registerUser: function () {
@@ -13,25 +15,42 @@ export default Controller.extend({
             var username = this.get('username');
             var password = this.get('password');
 
-            /*
-            this.store.findAll('user').then(function(users){
-                users.forEach(user => console.log(user.username + ' ' + user.password + ' ' + user.firstName));
-            });*/
+            var newUser = JSON.stringify(
+                {
+                    user: {
+                        firstName: firstName,
+                        lastName: lastName,
+                        username: username,
+                        password: password
+                    }
+                }
+            );
 
-            var newUser = this.store.createRecord('user', {
+            this.get('ajax').request('/api/users', {
+                contentType: 'application/json',
+                method: 'POST',
+                data: newUser
+            }).then(function () {
+                _this.get('toastr').success('Registered!');
+                _this.transitionToRoute('/login');
+            }, err => {
+                //console.log(err);
+                this.get('toastr').error(err.payload);
+            });
+
+            /*var newUser = this.store.createRecord('user', {
                 firstName: firstName,
                 lastName: lastName,
                 username: username,
                 password: password
-            });
-
-
+            });*/
+/*
             newUser.save().then(function () {
                 _this.get('toastr').success('Registered!');
                 _this.transitionToRoute('/login');
             }, err => {
                 this.get('toastr').error(err.errors[0].detail);
-            });
+            });*/
         }
     }
 });

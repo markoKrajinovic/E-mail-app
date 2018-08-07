@@ -29,8 +29,7 @@ module.exports = function (app) {
           username: req.body.user.username,
           password: sha1(req.body.user.password),
           firstName: req.body.user.firstName,
-          lastName: req.body.user.lastName,
-          created: req.body.user.created
+          lastName: req.body.user.lastName
         }).then(function () {
           res.send({
             user: { id: newUser.key }
@@ -52,6 +51,27 @@ module.exports = function (app) {
     });
   }
 
+
+
+    /*
+  usersRouter.get('/', function (req, res) {
+    if (!firebase.apps.length) {
+      initializeFirebase();
+    }
+    var users = firebase.database().ref("users");
+
+    users.orderByChild("username").equalTo(req.query.filter.username).once("value", function (snapshot) {
+      if (snapshot.exists()) {
+        snapshot.forEach(function (userSnapshot) {   //ucice samo jednom u foreach jer je username unique
+          var user = userSnapshot.val();
+          res.send({ user: user });
+        });
+      } else {
+        res.status(400).end();
+      }
+    });
+  });
+*/
   // The POST and PUT call will not contain a request body
   // because the body-parser is not included by default.
   // To use req.body, run:

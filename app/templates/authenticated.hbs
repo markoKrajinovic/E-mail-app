@@ -20,11 +20,13 @@
                     </a>
                 </h6>
                 <ul class="nav flex-column mb-2">
-                     <li class="nav-item ">
-                        <a role="button" class="btn btn-success" href="#">
+                    <li class="nav-item">
+                        {{#link-to 'authenticated.new'}}
+                        <a role="button" class="btn btn-primary" href="">
                             <span data-feather="file-text"></span>
                             Compose
                         </a>
+                        {{/link-to}}
                     </li>
                     <li class="nav-item">
                         {{#link-to 'authenticated.inbox'}}
@@ -46,13 +48,8 @@
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
-            </div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
             {{outlet}}
         </main>
     </div>
 </div>
-
-
