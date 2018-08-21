@@ -1,0 +1,40 @@
+<main role="main" class="container">
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <h6 class="border-bottom border-gray pb-2 mb-0">{{model.subject.title}}</h6>
+
+        {{#each model.messages as |message|}}
+        <div class="media text-muted pt-3">
+            <img data-src="holder.js/32x32?theme=thumb&bg=e83e8c&fg=e83e8c&size=1" alt="" class="mr-2 rounded">
+            <p class="media-body pb-3 mb-0 medium lh-125 border-bottom border-gray">
+                <strong class="d-block text-gray-dark">{{message.senderUsername}}</strong>
+                {{message.content}}
+            </p>
+            <p>
+                {{moment-format message.createdAt 'MMM DD HH:mm'}}
+            </p>
+        </div>
+        {{/each}}
+        <br/>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-info">Reply</button>
+        </div>
+    </div>
+</main>
+<!--
+{{#bs-modal open=modal3 onHidden=(action (mut modal3) false) as |modal|}}
+  {{#modal.header}}
+    <h4 class="modal-title">
+      Custom Dialog
+      <div class="badge">2</div>
+    </h4>
+  {{/modal.header}}
+  {{#modal.body}}
+    <input type="text" autofocus="autofocus">
+  {{/modal.body}}
+  {{#modal.footer}}
+    {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}}
+    {{#bs-button type="danger"}}Delete{{/bs-button}}
+    {{#bs-button type="success" onClick=(action modal.submit)}}Save{{/bs-button}}
+  {{/modal.footer}}
+{{/bs-modal}}
+{{#bs-button onClick=(action (mut modal3) true)}}Open Modal{{/bs-button}} -->

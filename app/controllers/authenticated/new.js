@@ -24,10 +24,7 @@ export default Controller.extend({
                     reciever = data.get("firstObject");     //username is unique
 
                     var loggedUserId = jwtDecode(this.get('session').data.authenticated.token).id;
-                    this.store.findRecord('user', loggedUserId).then(loggedUser => {
-                        console.log("reciever " + reciever.username);
-                        console.log("sender " + loggedUser.username);
-                        
+                    this.store.findRecord('user', loggedUserId).then(loggedUser => {                        
 
                         let newSubject = this.store.createRecord('subject', {
                             title: subjectText
@@ -35,10 +32,14 @@ export default Controller.extend({
                         newSubject.save().then(() => {
                             let message = this.store.createRecord('message', {
                                 content: content,
-                                reciever: reciever,
-                                sender: loggedUser,
-                                subject: newSubject
+                                recieverId: reciever.id,
+                                recieverUsername: reciever.username,
+                                senderId: loggedUser.id,
+                                senderUsername: loggedUser.username,
+                                subjectId: newSubject.id,
+                                subjectTitle: newSubject.title
                             });
+                            
                             message.save().then(() => {
                                 this.get('toastr').success('message sent');
                             });
@@ -48,7 +49,7 @@ export default Controller.extend({
                 }else
                     this.get('toastr').error('username doesn\'t exist');
 
-            }, err => {
+            }, () => {
                 this.get('toastr').error('database error');
             });
         }

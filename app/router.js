@@ -13,6 +13,7 @@ Router.map(function() {
     this.route('inbox');
     this.route('sent');
     this.route('new');
+    this.route('subject', {path: '/subject/:subject_id'});
   });
 });
 
