@@ -16,25 +16,25 @@
         {{/each}}
         <br/>
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-info">Reply</button>
+            {{#bs-button class="btn btn-info" onClick=(action (mut modal) true)}}Reply{{/bs-button}}
         </div>
     </div>
 </main>
-<!--
-{{#bs-modal open=modal3 onHidden=(action (mut modal3) false) as |modal|}}
+
+{{#bs-modal open=modal onHidden=(action (mut modal) false) as |modal|}}
   {{#modal.header}}
     <h4 class="modal-title">
-      Custom Dialog
-      <div class="badge">2</div>
+      Reply Message
     </h4>
   {{/modal.header}}
   {{#modal.body}}
-    <input type="text" autofocus="autofocus">
+    <div class="form-group w-100">
+        <label>Your message:</label>
+        {{textarea class="form-control" value=replyMessage rows="8"}}
+    </div>
   {{/modal.body}}
   {{#modal.footer}}
     {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}}
-    {{#bs-button type="danger"}}Delete{{/bs-button}}
-    {{#bs-button type="success" onClick=(action modal.submit)}}Save{{/bs-button}}
+    {{#bs-button class="btn btn-info" type="submit" onClick=(action "reply" modal)}}Reply{{/bs-button}}
   {{/modal.footer}}
 {{/bs-modal}}
-{{#bs-button onClick=(action (mut modal3) true)}}Open Modal{{/bs-button}} -->

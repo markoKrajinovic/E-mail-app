@@ -14,8 +14,9 @@ export default Route.extend({
             equalTo: userId
         }).then(usersMessages => {
             let subjects = [];
+            let subjectIds = [];
             usersMessages.forEach(item => {
-                if (!subjects.includes(item.subjectId)) {
+                if (!subjectIds.includes(item.subjectId)) {
                     let subject = this.store.createRecord('subject-view', {
                         subjectId: item.subjectId,
                         title: item.subjectTitle,
@@ -24,6 +25,7 @@ export default Route.extend({
                         lastMessageDate: item.createdAt
                     })
                     subjects.push(subject);
+                    subjectIds.push(item.subjectId);
                 }
             })
             return subjects;
