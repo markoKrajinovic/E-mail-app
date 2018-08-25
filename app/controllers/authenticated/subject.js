@@ -32,6 +32,7 @@ export default Controller.extend({
 
             message.save().then(() => {
                 this.toastr.success('Message sent');
+                this.set('replyMessage', '');
                 modalDialog.close();
             }, () => {
                 this.toastr.error('An error occured');

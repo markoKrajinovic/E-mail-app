@@ -1,11 +1,24 @@
-<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow">
+<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0">
     {{#link-to 'authenticated'}}
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="">Home</a>
     {{/link-to}}
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link" href="" {{action 'logout'}}>Sign out</a>
-        </li>
+
+    <ul class="navbar-nav col-sm-5 px-3">
+        <div class="row align-items-center">
+            <div class="col-9">
+                <li class="nav-item text-right text-light">
+                    Logged in as : {{model}}
+                </li>
+
+            </div>
+            <div class="col-3">
+                <li class="nav-item text-right">
+                    <a class="nav-link text-light" href="" {{action 'logout'}}>Sign out</a>
+                </li>
+
+            </div>
+
+        </div>
     </ul>
 </nav>
 
@@ -48,7 +61,7 @@
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             {{outlet}}
         </main>
     </div>

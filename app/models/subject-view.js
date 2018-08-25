@@ -4,6 +4,7 @@ export default DS.Model.extend({
     title: DS.attr('string'),
     date: DS.attr('string'),
     sender: DS.attr('string'),
+    reciever: DS.attr('string'),
     lastMessage: DS.attr('string'),
     lastMessageDate: DS.attr('date')
 });

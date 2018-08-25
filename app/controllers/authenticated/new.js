@@ -42,6 +42,11 @@ export default Controller.extend({
                             
                             message.save().then(() => {
                                 this.get('toastr').success('message sent');
+                                this.setProperties({
+                                    sendTo: '', 
+                                    content: '', 
+                                    subjectText: ''
+                                });
                             });
                         });    
                     });

@@ -32,25 +32,17 @@ export default Controller.extend({
                 data: newUser
             }).then(function () {
                 _this.get('toastr').success('Registered!');
+                _this.setProperties({
+                    firstName: '',
+                    lastName: '',
+                    username: '',
+                    password: ''
+                });
                 _this.transitionToRoute('/login');
             }, err => {
                 //console.log(err);
                 this.get('toastr').error(err.payload);
             });
-
-            /*var newUser = this.store.createRecord('user', {
-                firstName: firstName,
-                lastName: lastName,
-                username: username,
-                password: password
-            });*/
-/*
-            newUser.save().then(function () {
-                _this.get('toastr').success('Registered!');
-                _this.transitionToRoute('/login');
-            }, err => {
-                this.get('toastr').error(err.errors[0].detail);
-            });*/
         }
     }
 });
