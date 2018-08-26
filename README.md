@@ -14,7 +14,7 @@ You will need the following things properly installed on your computer.
 ## Installation
 
 * `git clone https://github.com/markoKrajinovic/E-mail-app`
-* `cd e-mail`
+* `cd E-mail-app`
 * `npm install`
 
 ## Running / Development
