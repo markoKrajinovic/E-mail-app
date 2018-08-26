@@ -8,8 +8,8 @@ export default Controller.extend({
     actions:{
         logout(){
             this.get('toastr').success('Loged out');
-            this.transitionToRoute('login');
             this.get('session').invalidate();
+            this.transitionToRoute('login');
         }
     }
 });
