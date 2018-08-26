@@ -7,7 +7,9 @@
             <img data-src="holder.js/32x32?theme=thumb&bg=e83e8c&fg=e83e8c&size=1" alt="" class="mr-2 rounded">
             <p class="media-body pb-3 mb-0 medium lh-125 border-bottom border-gray">
                 <strong class="d-block text-gray-dark">{{message.senderUsername}}</strong>
-                {{message.content}}
+                <pre  class="media text-muted pt-3">
+                    {{message.content}}
+                </pre>
             </p>
             <p>
                 {{moment-format message.createdAt 'MMM DD HH:mm'}}
@@ -16,25 +18,61 @@
         {{/each}}
         <br/>
         <div class="d-flex justify-content-center">
-            {{#bs-button class="btn btn-info" onClick=(action (mut modal) true)}}Reply{{/bs-button}}
+            <div class="row">
+                <div class="col">
+                    {{#bs-button class="btn btn-info" onClick=(action (mut modal) true)}}Reply{{/bs-button}} 
+                </div>
+                <div class="col">
+                    <button class="btn btn-info" {{action "triggerForwardModal"}}>Forward</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </main>
 
-{{#bs-modal open=modal onHidden=(action (mut modal) false) as |modal|}}
-  {{#modal.header}}
+{{#bs-modal open=modal onHidden=(action (mut modal) false) as |modal|}} 
+    {{#modal.header}}
     <h4 class="modal-title">
-      Reply Message
+        Reply Message
     </h4>
-  {{/modal.header}}
-  {{#modal.body}}
+    {{/modal.header}} 
+
+    {{#modal.body}}
     <div class="form-group w-100">
         <label>Your message:</label>
         {{textarea class="form-control" value=replyMessage rows="8"}}
     </div>
-  {{/modal.body}}
-  {{#modal.footer}}
-    {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}}
-    {{#bs-button class="btn btn-info" type="submit" onClick=(action "reply" modal)}}Reply{{/bs-button}}
-  {{/modal.footer}}
+    {{/modal.body}} 
+    {{#modal.footer}} 
+        {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}} 
+        {{#bs-button class="btn btn-info" type="submit" onClick=(action "reply" modal)}}Reply{{/bs-button}} 
+    {{/modal.footer}} 
+{{/bs-modal}}
+
+{{#bs-modal open=forwardModal onHidden=(action (mut forwardModal) false) as |modal|}} 
+    {{#modal.header}}
+    <h4 class="modal-title">
+        Forward Message
+    </h4>
+    {{/modal.header}} 
+
+    {{#modal.body}}
+    <div class="form-group w-100">
+        <label>To:</label>
+        {{input class="form-control" value=forwardTo}}
+    </div>
+    <div class="form-group w-100">
+        <label>Subject:</label>
+        {{input class="form-control" value=forwardSubject}}
+    </div>
+    <div class="form-group w-100">
+        <label>Your message:</label>
+        {{textarea class="form-control" value=forwardMessage rows="8"}}
+    </div>
+    {{/modal.body}} 
+    {{#modal.footer}} 
+        {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}} 
+        {{#bs-button class="btn btn-info" type="submit" onClick=(action "forward" modal)}}Forward{{/bs-button}} 
+    {{/modal.footer}} 
 {{/bs-modal}}

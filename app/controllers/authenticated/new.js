@@ -15,6 +15,10 @@ export default Controller.extend({
                 this.get('toastr').error('username doesn\'t exist');
                 return;
             }
+            if (!subjectText){
+                this.get('toastr').error('subject can\'t be empty');
+                return;
+            }
 
             this.store.query('user', {
                 orderBy: 'username',

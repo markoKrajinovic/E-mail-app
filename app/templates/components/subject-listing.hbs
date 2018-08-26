@@ -3,7 +3,11 @@
     <img data-src="holder.js/32x32?theme=thumb&bg=e83e8c&fg=e83e8c&size=1" alt="" class="mr-2 rounded">
     <p class="media-body pb-3 mb-0 medium lh-125 border-bottom border-gray">
         <strong class="d-block text-gray-dark">{{subject.sender}}, {{subject.reciever}} - {{subject.title}} ({{subject.count}})</strong>
-        {{subject.lastMessage}}
+
+        <div style="height: 25px;overflow: hidden;text-overflow: ellipsis;">
+            {{subject.lastMessage}}
+        </div>
+
     </p>
     <p>
         {{moment-format subject.lastMessageDate 'MMM DD HH:mm'}}
