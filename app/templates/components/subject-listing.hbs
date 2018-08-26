@@ -2,11 +2,11 @@
 <div class="media text-muted pt-3">
     <img data-src="holder.js/32x32?theme=thumb&bg=e83e8c&fg=e83e8c&size=1" alt="" class="mr-2 rounded">
     <p class="media-body pb-3 mb-0 medium lh-125 border-bottom border-gray">
-        <strong class="d-block text-gray-dark">{{subject.sender}}, {{subject.reciever}} - {{subject.title}}</strong>
+        <strong class="d-block text-gray-dark">{{subject.sender}}, {{subject.reciever}} - {{subject.title}} ({{subject.count}})</strong>
         {{subject.lastMessage}}
     </p>
     <p>
-        {{moment-format subject.lastMessageDate 'MMM DD'}}
+        {{moment-format subject.lastMessageDate 'MMM DD HH:mm'}}
     </p>
 </div>
 {{/link-to}}
